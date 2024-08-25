@@ -3,9 +3,47 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs",
+    "format": "prettier --write .",
+    "test": "vitest run --coverage --typecheck",
+    "bench": "vitest bench",
+    "prepack": "yarn build"
+  },
   "dependencies": {
     "@tanstack/react-query": "^5.52.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
+    "@vitest/coverage-istanbul": "^2.0.5",
+    "prettier": "^3.3.3",
+    "rollup": "^4.21.0",
+    "rollup-plugin-dts": "^6.1.1",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  },
+  "publishConfig": {
+    "access": "public",
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts"
+  },
+  "files": [
+    "dist",
+    "*.d.ts"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
   }
 }
