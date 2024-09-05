@@ -1,8 +1,22 @@
 {
   "name": "react-hook-query",
-  "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "private": false,
+  "main": "dist/react-hook-query.umd.cjs",
+  "module": "dist/react-hook-query.js",
+  "types": "dist/index.d.ts",
   "type": "module",
+  "files": [
+    "dist"
+  ],
+  "keywords": ["react", "hook", "query", "data-fetching"],
+  "author": "hansolJi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hansolbangul/react-hook-query"
+  },
+  "homepage": "https://github.com/hansolbangul/react-hook-query",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -10,9 +24,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.54.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "@tanstack/react-query": "^5.54.1"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^17.0.0",
+    "react-dom": "^18.0.0 || ^17.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
