@@ -1,1 +1,1 @@
-export * from "./queryInitializer";
+export {queryInit, type ResourceMap} from "./queryInitializer";

@@ -1,6 +1,6 @@
 {
   "name": "@hansolbangul/react-hook-query",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": false,
   "main": "dist/react-hook-query.umd.cjs",
   "module": "dist/react-hook-query.js",
@@ -19,7 +19,7 @@
   "homepage": "https://github.com/hansolbangul/react-hook-query",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "npx tsc --project tsconfig.app.json",
     "lint": "eslint .",
     "preview": "vite preview"
   },

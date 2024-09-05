@@ -1,5 +1,5 @@
-import { HydrationBoundary, dehydrate, QueryKey } from "@tanstack/react-query";
-import getQueryClient from "./query-client";
+import {HydrationBoundary, dehydrate, QueryKey} from "@tanstack/react-query";
+import {queryClient} from "./query-client";
 
 /**
  * 인터페이스 `QueryProps`는 React Query에서 사용하는 쿼리의 키와
@@ -10,8 +10,8 @@ import getQueryClient from "./query-client";
  * @property {() => Promise<ResponseType> | unknown} queryFn - 쿼리 키와 관련된 데이터를 가져오는 함수.
  */
 interface QueryProps<ResponseType = unknown> {
-  queryKey: QueryKey;
-  queryFn: () => Promise<ResponseType> | unknown;
+    queryKey: QueryKey;
+    queryFn: () => Promise<ResponseType> | unknown;
 }
 
 /**
@@ -30,14 +30,12 @@ interface QueryProps<ResponseType = unknown> {
  * });
  */
 export async function getDehydratedQuery<Q extends QueryProps>({
-  queryKey,
-  queryFn,
-}: Q) {
-  const queryClient = getQueryClient();
+                                                                   queryKey,
+                                                                   queryFn,
+                                                               }: Q) {
+    await queryClient.prefetchQuery({queryKey, queryFn});
 
-  await queryClient.prefetchQuery({ queryKey, queryFn });
-
-  return dehydrate(queryClient);
+    return dehydrate(queryClient);
 }
 
 /**
@@ -56,14 +54,13 @@ export async function getDehydratedQuery<Q extends QueryProps>({
  * ]);
  */
 export async function getDehydratedQueries<Q extends QueryProps[]>(queries: Q) {
-  const queryClient = getQueryClient();
-  await Promise.all(
-    queries.map(({ queryKey, queryFn }) =>
-      queryClient.prefetchQuery({ queryKey, queryFn }),
-    ),
-  );
+    await Promise.all(
+        queries.map(({queryKey, queryFn}) =>
+            queryClient.prefetchQuery({queryKey, queryFn}),
+        ),
+    );
 
-  return dehydrate(queryClient);
+    return dehydrate(queryClient);
 }
 
 /**

@@ -1,2 +1,2 @@
-export * from "./hydrate-query";
-export * from "./query-client";
+export {Hydrate, getDehydratedQuery, getDehydratedQueries} from "./hydrate-query";
+export {queryClient} from "./query-client";
