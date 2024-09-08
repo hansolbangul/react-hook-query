@@ -12,7 +12,7 @@ type ResourceParams<ResourceName extends string> =
 
 export function useItem<ResourceName extends string, ResponseType = unknown>({
   resource,
-  params = {},
+  params,
 }: UseItemProps<ResourceName>) {
   const config = queryInit().getConfig(resource);
 

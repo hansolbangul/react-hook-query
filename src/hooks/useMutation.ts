@@ -14,7 +14,7 @@ type MutationParams<ResourceName extends string> =
 export function useMutationItem<
   ResourceName extends string,
   ResponseType = unknown,
->({ resource, params = {} }: UseMutationProps<ResourceName>) {
+>({ resource, params }: UseMutationProps<ResourceName>) {
   const config = queryInit().getMutation(resource);
 
   if (!config) {
