@@ -1,1 +1,1 @@
-export {queryInit, type ResourceMap} from "./queryInitializer";
+export {queryInit, type ResourceMap, type MutationMap} from "./queryInitializer";

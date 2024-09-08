@@ -12,7 +12,7 @@ type ResourceParams<ResourceName extends string> =
 
 export function useItem<ResourceName extends string, ResponseType = unknown>({
   resource,
-  params,
+  params = {},
 }: UseItemProps<ResourceName>) {
   const config = queryInit().getConfig(resource);
 
@@ -24,9 +24,7 @@ export function useItem<ResourceName extends string, ResponseType = unknown>({
 
   const paramsArray = Object.values(mergedParams).map((value) => String(value));
 
-  const queryKey = config.queryKey
-    ? config.queryKey(paramsArray)
-    : [resource, ...paramsArray];
+  const queryKey = [resource, ...paramsArray];
 
   return useQuery<ResponseType>({
     queryKey,
