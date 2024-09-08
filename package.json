@@ -1,6 +1,6 @@
 {
   "name": "@hansolbangul/react-hook-query",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "dist/react-hook-query.umd.cjs",
   "module": "dist/react-hook-query.js",
   "types": "dist/index.d.ts",

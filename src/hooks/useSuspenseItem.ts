@@ -1,12 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { queryInit } from "../config";
 import { UseItemProps } from "./type.ts";
+import { queryInit } from "../config";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
-export function useItem<ResourceName extends string, ResponseType = unknown>({
-  resource,
-  params,
-  options,
-}: UseItemProps<ResourceName, ResponseType>) {
+export function useSuspenseItem<
+  ResourceName extends string,
+  ResponseType = unknown,
+>({ resource, params, options }: UseItemProps<ResourceName, ResponseType>) {
   const config = queryInit().getConfig(resource);
 
   if (!config) {
@@ -19,7 +18,7 @@ export function useItem<ResourceName extends string, ResponseType = unknown>({
 
   const queryKey = [resource, ...paramsArray];
 
-  return useQuery<ResponseType>({
+  return useSuspenseQuery<ResponseType>({
     queryKey,
     queryFn: () => config.queryFn(mergedParams),
     ...options,

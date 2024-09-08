@@ -1,15 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { queryInit, MutationMap } from "../config";
-
-interface UseMutationProps<ResourceName extends string> {
-  resource: ResourceName;
-  params?: MutationParams<ResourceName>;
-}
-
-type MutationParams<ResourceName extends string> =
-  ResourceName extends keyof MutationMap
-    ? MutationMap[ResourceName]["params"]
-    : never;
+import { queryInit } from "../config";
+import { UseMutationProps } from "./type.ts";
 
 export function useMutationItem<
   ResourceName extends string,
