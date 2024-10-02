@@ -1,69 +1,46 @@
-interface QueryConfig<
-    ResponseType = unknown,
-    ParamsType = Record<string, any>,
-> {
-  queryFn: (params?: ParamsType) => Promise<ResponseType>;
-  params?: ParamsType;
-}
+type QueryOption<T> = readonly { resource: T; config: any }[];
 
-interface MutationConfig<
-    ResponseType = unknown,
-    ParamsType = Record<string, any>,
-> {
-  mutationFn: (params?: ParamsType) => Promise<ResponseType>;
-  params?: ParamsType;
-}
+export class QueryManager<T, Q extends QueryOption<T>> {
+  public queryList: Q = [] as unknown as Q;
 
-export type ResourceMap = Record<string, QueryConfig<any, any>>;
-export type MutationMap = Record<string, MutationConfig<any, any>>;
-
-class QueryInitializer {
-  private resourceMap: ResourceMap = {};
-  private mutationMap: MutationMap = {};
-
-  /**
-   * 여러 리소스를 한 번에 초기화하는 함수 (Query 전용).
-   *
-   * @param {Array<{ resource: string; config: QueryConfig }>} configs - 리소스 이름과 설정을 포함한 객체의 배열.
-   */
-  initQueries<ResourceName extends string, ParamsType extends Record<string, any>>(
-      configs: Array<{
-        resource: ResourceName;
-        config: QueryConfig<any, ParamsType>;
-      }>,
-  ) {
-    configs.forEach(({ resource, config }) => {
-      this.resourceMap[resource] = config;
-    });
+  constructor(queryList: Q) {
+    this.queryList = queryList;
   }
 
-  /**
-   * 여러 리소스를 한 번에 초기화하는 함수 (Mutation 전용).
-   *
-   * @param {Array<{ resource: string; config: MutationConfig }>} configs - 리소스 이름과 설정을 포함한 객체의 배열.
-   */
-  initMutations<ResourceName extends string, ParamsType extends Record<string, any>>(
-      configs: Array<{
-        resource: ResourceName;
-        config: MutationConfig<any, ParamsType>;
-      }>,
-  ) {
-    configs.forEach(({ resource, config }) => {
-      this.mutationMap[resource] = config;
-    });
+  // 주입된 queryList를 반환하는 함수
+  getQueryList() {
+    return this.queryList;
   }
 
-  getConfig<ResourceName extends string>(resource: ResourceName) {
-    return this.resourceMap[resource];
+  getQueryDetail(resource: T): Extract<Q[number], { resource: T }>["config"] {
+    const foundResource = this.queryList.find((q) => q.resource === resource);
+
+    if (!foundResource) {
+      throw new Error(`Resource ${resource} not found`);
+    }
+
+    return foundResource.config;
   }
 
-  getMutation<ResourceName extends string>(resource: ResourceName) {
-    return this.mutationMap[resource];
-  }
+  useQueryItem = <T extends Q[number]["resource"]>(resource: T) => {
+    // 리소스에 맞는 config 타입을 추론
+    type ConfigType = Extract<Q[number], { resource: T }>["config"];
+
+    // const [data, setData] = useState<ConfigType | null>(null);
+
+    // useEffect(() => {
+    //     // getQueryDetail을 사용해 resource에 맞는 config를 가져옴
+    //     const defaultConfig = queryManager.getQueryDetail(resource);
+    //
+    //     // 외부에서 config를 받은 경우 병합
+    //     const finalConfig = { ...defaultConfig, ...externalConfig };
+    //
+    //     // 데이터 설정
+    //     setData(finalConfig);
+    // }, [resource, externalConfig]);
+
+    return resource;
+  };
 }
 
-const queryInitializer = new QueryInitializer();
-
-export function queryInit() {
-  return queryInitializer;
-}
+// export const queryManager = new QueryManager();
